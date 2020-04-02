@@ -55,10 +55,10 @@ public class UploadService extends IntentService {
         }
         //只存在log文件，但是不存在崩溃日志，也不会上传
         ArrayList<File> crashFileList = FileUtil.getCrashList(logfolder);
-        if (crashFileList.size() == 0) {
-            LogUtil.d(TAG, "只存在log文件，但是不存在崩溃日志，所以不上传");
-            return;
-        }
+//        if (crashFileList.size() == 0) {
+//            LogUtil.d(TAG, "只存在log文件，但是不存在崩溃日志，所以不上传");
+//            return;
+//        }
         File zipfolder = new File(LogReport.getInstance().getROOT() + "AlreadyUploadLog/");
         File zipfile = new File(zipfolder, "UploadOn" + ZIP_FOLDER_TIME_FORMAT.format(System.currentTimeMillis()) + ".zip");
         final File rootdir = new File(LogReport.getInstance().getROOT());
@@ -70,9 +70,11 @@ public class UploadService extends IntentService {
         //把日志文件压缩到压缩包中
         if (CompressUtil.zipFileAtPath(logfolder.getAbsolutePath(), zipfile.getAbsolutePath())) {
             LogUtil.d("把日志文件压缩到压缩包中 ----> 成功");
-            for (File crash : crashFileList) {
-                content.append(FileUtil.getText(crash));
-                content.append("\n");
+         if (crashFileList.size() != 0)  {
+                for (File crash : crashFileList) {
+                    content.append(FileUtil.getText(crash));
+                    content.append("\n");
+                }
             }
             LogReport.getInstance().getUpload().sendFile(zipfile, content.toString(), new ILogUpload.OnUploadFinishedListener() {
                 @Override
