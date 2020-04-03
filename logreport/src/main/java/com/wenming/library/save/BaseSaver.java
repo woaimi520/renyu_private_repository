@@ -206,7 +206,7 @@ public abstract class BaseSaver implements ISave {
                     //Log.d("wenming", "解密耗时为 = ： " + String.valueOf((double) (endTime - startTime) / 1000000) + "ms");
                     //Log.d("wenming", "读取本地的Log文件，并且解密 = \n" + preContent.toString());
                     //Log.d("wenming", "即将保存的Log文件内容 = \n" + preContent.toString());
-                    writeText(logFile, decodeString(FileUtil.Companion.getText(logFile)) + formatLogMsg(tag, content) + "\n");
+                    writeText(logFile, decodeString(FileUtil.getText(logFile)) + formatLogMsg(tag, content) + "\n");
                 }
 
             }
