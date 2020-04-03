@@ -66,7 +66,7 @@ public class CrashWriter extends BaseSaver {
                     if (!crashFile.exists()) {
                         createFile(crashFile, mContext);
                     }
-                    StringBuilder preContent = new StringBuilder(decodeString(FileUtil.getText(crashFile)));
+                    StringBuilder preContent = new StringBuilder(decodeString(FileUtil.Companion.getText(crashFile)));
                     LogUtil.d(TAG, "读取本地的Crash文件，并且解密 = \n" + preContent.toString());
                     preContent.append(formatLogMsg(tag, content)).append("\n");
                     LogUtil.d(TAG, "即将保存的Crash文件内容 = \n" + preContent.toString());

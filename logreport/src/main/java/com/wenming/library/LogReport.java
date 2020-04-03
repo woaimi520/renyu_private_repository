@@ -11,6 +11,7 @@ import com.wenming.library.save.ISave;
 import com.wenming.library.save.imp.LogWriter;
 import com.wenming.library.upload.ILogUpload;
 import com.wenming.library.upload.UploadService;
+import com.wenming.library.util.FileUtil;
 import com.wenming.library.util.NetUtil;
 
 /**
@@ -50,6 +51,12 @@ public class LogReport {
     private boolean mWifiOnly = true;
 
 
+    /**
+     *  是否值保存三天的log信息  true为只保留三天的 false不做删除操作
+     */
+    private boolean mThreeDayOnly = false;
+
+
     private LogReport() {
     }
 
@@ -82,6 +89,11 @@ public class LogReport {
 
     public LogReport setWifiOnly(boolean wifiOnly) {
         mWifiOnly = wifiOnly;
+        return this;
+    }
+
+    public LogReport onlySaveThreeDay(boolean ThreeDayOnly){
+        mThreeDayOnly = ThreeDayOnly;
         return this;
     }
 
@@ -122,6 +134,10 @@ public class LogReport {
         if (mEncryption != null) {
             mLogSaver.setEncodeType(mEncryption);
         }
+        if(mThreeDayOnly){
+            FileUtil.Companion.isToSaveForThreeDays(context);
+        }
+
         CrashHandler.getInstance().init(mLogSaver);
         LogWriter.getInstance().init(mLogSaver);
     }
